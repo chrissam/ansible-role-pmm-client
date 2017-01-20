@@ -1,6 +1,8 @@
 ---
 - hosts: localhost
   remote_user: root
+  gather_facts: True
+
   roles:
     - chrissam.pmm-server
     - ansible-role-pmm-client
