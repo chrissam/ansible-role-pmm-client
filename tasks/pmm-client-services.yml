@@ -4,11 +4,13 @@
 - name: Check for services already running
   shell: "pmm-admin list | grep {{ item }} | grep YES | cut  -d' ' -f1"
   with_items: "{{ pmm_client_add_service }}"
+  changed_when: false
   register: services_running
 
 - name: Check for services already added
   shell: "pmm-admin list | grep {{ item }} | cut  -d' ' -f1"
   with_items: "{{ pmm_client_add_service }}"
+  changed_when: false
   register: services_added
 
 
