@@ -13,6 +13,7 @@ addons:
 
 services:
   - mysql
+  - docker
 
 install:
   # Install ansible
@@ -20,6 +21,9 @@ install:
 
   # Check ansible version
   - ansible --version
+  
+  # Install docker-py
+  - pip install docker-py
 
   # Install chrissam.pmm-server role
   - ansible-galaxy install chrissam.pmm-server --roles-path=./
