@@ -9,7 +9,7 @@
 
 
 # ip address of the pmm-server to connect to
-pmm_client_server_host: 192.168.60.4
+pmm_client_server_host: localhost
 
 
 
