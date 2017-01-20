@@ -3,6 +3,9 @@
   remote_user: root
   gather_facts: True
 
+  vars:
+   pmm_client_Debian_repo: https://repo.percona.com/apt/percona-release_0.1-4.trusty_all.deb
+
   roles:
     - chrissam.pmm-server
     - ansible-role-pmm-client
