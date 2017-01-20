@@ -1,0 +1,16 @@
+---
+- name: Sanity check for pmm_client_PROTECTED
+  fail: msg="Value of pmm_client_PROTECTED can only be either true or false"
+  when: "(pmm_client_PROTECTED != false) and  (pmm_client_PROTECTED != true)"
+
+- name: Sanity check for pmm_client_SSL
+  fail: msg="Value of pmm_client_SSL can only be either true or false"
+  when: "(pmm_client_SSL != false) and (pmm_client_SSL != true)"
+
+- name: Sanity check for pmm_client_default_cert
+  fail: msg="Value of pmm_client_default_cert can only be either true or false"
+  when: "(pmm_client_default_cert != true) and (pmm_client_default_cert != false)"
+
+- name: Sanity cheeck for pmm_client_UNINSTALL
+  fail: msg="Value of pmm_client_UNINSTALL can only be either true or false"
+  when: "(pmm_client_UNINSTALL != true) and (pmm_client_UNINSTALL != false)"

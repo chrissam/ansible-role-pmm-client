@@ -1,0 +1,5 @@
+---
+__pmm_client_RedHat_repo: http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm
+__pmm_client_http_port: 80
+__pmm_client_https_port: 443
+__pmm_client_UNINSTALL: false

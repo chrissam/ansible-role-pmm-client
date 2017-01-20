@@ -1,0 +1,24 @@
+---
+
+- name: Check if pmm-client is already configured
+  command: pmm-admin list
+  ignore_errors: true
+  register: pmm_admin_list
+  changed_when: false
+
+- name: Creating connection to PMM Server - Combined Mode ( SSL and Authentication)  with selfsigned SSL
+  command: >
+           pmm-admin config --server {{ pmm_client_server_host }}:{{ pmm_client_https_port}} 
+           --server-user {{ pmm_client_server_username }} 
+           --server-password {{ pmm_client_server_password }}
+           --server-insecure-ssl
+  when: (pmm_admin_list.stdout.find('PMM client is not configured') != -1 and pmm_client_default_cert)
+ 
+- name: Creating connection to PMM Server - Combined Mode ( SSL and Authentication) with CA signed SSL
+  command: >
+           pmm-admin config --server {{ pmm_client_server_host }}:{{ pmm_client_https_port}}
+           --server-user {{ pmm_client_server_username }}
+           --server-password {{ pmm_client_server_password }}
+           --server-ssl
+  when: (pmm_admin_list.stdout.find('PMM client is not configured') != -1 and not(pmm_client_default_cert)) 
+

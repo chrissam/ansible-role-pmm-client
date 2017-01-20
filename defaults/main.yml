@@ -1,0 +1,122 @@
+## URL to configure Percona yum repository ( optional ). Note: Keep this commented to take default version
+#pmm_client_RedHat_repo: http://www.percona.com/downloads/percona-release/redhat/0.1-4/percona-release-0.1-4.noarch.rpm
+
+
+## URL to configure Percona apt repository ( optional ). Note: Keep this commented to take the default version
+
+#pmm_client_Debian_repo: https://repo.percona.com/apt/percona-release_0.1-4.{{ facter_lsbdistcodename }}_all.deb
+
+
+
+# ip address of the pmm-server to connect to
+pmm_client_server_host: 192.168.60.4
+
+
+
+#-------------------- PMM Client Server connection configuration Start ----------------#
+
+## Note: Used any one of the below 4 (Basic, Protected, SSL, Combined) configurations based on your PMM Server configuration
+
+#---------------------------
+# Basic (Without SSL and Authentication) 
+#---------------------------
+
+## Note: Use this section if you have not enabled Authentication or SSL in pmm-server. 
+## Comment out all the variables of the other sections (Protected, SSL and Combined) if you are using this
+
+## Set to true if your pmm server was configured without Authentication and SSL ( Accepted values: true or false )
+#pmm_client_BASIC: true
+
+## In case if you have used custom port numbers in pmm-server, then set the values here. Else keep this commented to take the default values
+#pmm_client_http_port:
+#pmm_client_https_port:
+
+
+
+#-----------------------------
+# Protected ( Authentication )
+#-----------------------------
+
+## Note: Use this section if you have only enabled Authentication in pmm-server. 
+## Comment out all the variables of the other sections (Basic, SSL and Combined) if you are using this
+
+#pmm_client_PROTECTED: true
+
+## Username and password to connect to PMM server
+#pmm_client_server_username: admin
+#pmm_client_server_password: admin
+
+## In case if you have used custom port numbers in pmm-server, then set the values here. Else keep this commented to take the default values
+#pmm_client_http_port:
+#pmm_client_https_port:
+
+
+
+#------------------------------
+# SSL ( Client Server Encryption)
+#------------------------------
+
+## Note: Use this section if you have only enabled SSL for encryption in pmm-server.
+## Comment out all the variables of the other sections (Basic, Protected and Combined) if you are using this
+
+#pmm_client_SSL: true
+
+## In case if you have used custom port numbers in pmm-server, then set the values here. Else keep this commented to take the default values
+#pmm_client_http_port: 
+#pmm_client_https_port:
+
+## If you have used self signed certificate while configuring SSL in pmm-server, then set this to true.
+## If you have used CA sgined certificate while configuring SSL in pmm-server, then set this to false.
+#pmm_client_default_cert: true
+
+
+
+
+#------------------------------
+# Combined ( Protected and SSL )
+#------------------------------
+
+## Note: Use this section if you have enabled both SSL and user authentication in pmm-server.
+## Comment out all the variables of the other sections (Basic, Protected and SSL) if you are using this
+
+pmm_client_PROTECTED: true
+pmm_client_SSL: true
+
+## Username and password to connect to PMM server
+pmm_client_server_username: admin
+pmm_client_server_password: admin
+
+## If you have used self signed certificate while configuring SSL in pmm-server, then set this to true.
+## If you have used CA signed certificate while configuring SSL in pmm-server, then set this to false.
+pmm_client_default_cert: true
+
+
+
+#--------------- PMM Client Server connection configuration End ----------------#
+
+
+
+## Define services to be added in a list ( eg: mysql, mongodb, mysql:metrics etc )
+pmm_client_add_service:
+   - mysql
+
+## Define services to be removed in a list ( eg: mysql, linux:metrics, mysql:metrics etc )
+pmm_client_remove_service: []
+
+pmm_client_db_username: root
+pmm_client_db_password: 
+
+## Define List of services to be stopped or started ( eg: mysql, linux:metrics, mongdb:metrics etc )
+pmm_client_service_start:
+    - linux:metrics
+    - mysql:metrics
+    - mysql:queries
+
+pmm_client_service_stop: []
+
+
+## Uninstall PMM Client. Set this to true, if you want to uninstall pmm-client
+pmm_client_UNINSTALL: false
+
+
+

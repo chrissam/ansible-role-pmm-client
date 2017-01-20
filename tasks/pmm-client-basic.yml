@@ -1,0 +1,12 @@
+---
+
+- name: Check if pmm-client is already configured
+  command: pmm-admin list
+  ignore_errors: true
+  register: pmm_admin_list
+  changed_when: false
+
+- name: Creating connection to PMM Server - Basic Mode
+  command: "pmm-admin config --server {{ pmm_client_server_host }}:{{ pmm_client_http_port}}"
+  when: pmm_admin_list.stdout.find('PMM client is not configured') != -1
+  

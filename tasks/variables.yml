@@ -1,0 +1,28 @@
+---
+# Variable Configurations
+
+- name: URL to configure Percona yum repo if not defined
+  set_fact:
+    pmm_client_RedHat_repo: "{{ __pmm_client_RedHat_repo }}"
+  when: pmm_client_RedHat_repo is not defined
+
+- name: URL to configure Percona apt repo if not defined
+  set_fact:
+    pmm_client_Debian_repo: https://repo.percona.com/apt/percona-release_0.1-4.{{ facter_lsbdistcodename }}_all.deb
+  when: (pmm_client_Debian_repo is not defined) and (ansible_os_family == 'Debian')
+
+- name: Set default http port 
+  set_fact:
+    pmm_client_http_port: "{{ __pmm_client_http_port }}"
+  when: pmm_client_http_port is not defined
+
+- name: Set default https port 
+  set_fact:
+    pmm_client_https_port: "{{ __pmm_client_https_port }}"
+  when: pmm_client_https_port is not defined
+
+
+- name: Set uninstall to false by default
+  set_fact:
+    pmm_client_UNINSTALL: "{{ __pmm_client_UNINSTALL }}"
+  when: pmm_client_UNINSTALL is not defined

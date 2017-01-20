@@ -1,0 +1,13 @@
+---
+
+- name: Check if SELinux is set to enforced mode
+  fail: msg=" SELinux is in 'enforced' mode. Change it to 'permissive' or 'disabled' in order to install PMM Client"
+  when: ansible_selinux.mode == 'enforcing'
+
+- name: Configure Percona repository
+  yum: "name={{ item }} state=present"
+  with_items: "{{ pmm_client_RedHat_repo }}"
+
+
+- name: Install PMM Client
+  yum: name=pmm-client state=present
