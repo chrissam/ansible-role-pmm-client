@@ -41,7 +41,7 @@ IP address or domain name of the PMM server that the client should connect to.
 ----------
 
 
-pmm_client_BASIC:  true
+    pmm_client_BASIC:  true
 
 Set this to true if you have not enabled authentication or SSL in PMM server
 
@@ -145,5 +145,4 @@ MIT / BSD
 **Author**
 
 This role was created by [Chris Sam](https://linkedin.com/in/chris-sam) for [devopsideas](http://devopsideas.com)
-
 
