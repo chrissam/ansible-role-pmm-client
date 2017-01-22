@@ -3,10 +3,10 @@
 - name: Fetch percona repository package
   get_url:
     url: "{{ pmm_client_Debian_repo }}"
-    dest: "/tmp/percona-release_0.1-4.{{ facter_lsbdistcodename }}_all.deb"
+    dest: "/tmp/percona-release_0.1-4.{{ ansible_distribution_release }}_all.deb"
 
 - name: Install Repository package
-  command: "dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb chdir=/tmp creates={{ item }}"
+  command: "dpkg -i percona-release_0.1-4.{{ ansible_distribution_release }}_all.deb chdir=/tmp creates={{ item }}"
   with_items:
     - /etc/apt/sources.list.d/percona-release.list
 

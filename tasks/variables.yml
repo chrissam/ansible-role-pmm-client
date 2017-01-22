@@ -8,7 +8,7 @@
 
 - name: URL to configure Percona apt repo if not defined
   set_fact:
-    pmm_client_Debian_repo: "https://repo.percona.com/apt/percona-release_0.1-4.{{ facter_lsbdistcodename }}_all.deb"
+    pmm_client_Debian_repo: "https://repo.percona.com/apt/percona-release_0.1-4.{{ ansible_distribution_release }}_all.deb"
   when: (pmm_client_Debian_repo is not defined) and (ansible_os_family == 'Debian')
 
 - name: Set default http port 
