@@ -5,31 +5,49 @@
 
 # Setup/install tasks.
 - include: setup-Debian.yml
-  when: (ansible_os_family == 'Debian') and not(pmm_client_UNINSTALL) 
+  when:
+    - ansible_os_family == 'Debian'
+    - not pmm_client_UNINSTALL
 
 - include: setup-RedHat.yml
-  when: (ansible_os_family == 'RedHat') and not(pmm_client_UNINSTALL)
+  when: 
+    - ansible_os_family == 'RedHat'
+    - not pmm_client_UNINSTALL
 
 # Uninstall PPM Client
 - include: pmm-client-uninstall.yml
-  when: pmm_client_UNINSTALL
+  when: 
+    - pmm_client_UNINSTALL
 
 # Configure PMM Client - Basic Mode
 - include: pmm-client-basic.yml
-  when: "{{ pmm_client_PROTECTED }} == false and {{ pmm_client_SSL }} == false and {{ pmm_client_UNINSTALL }} == false"
+  when:
+    - not pmm_client_PROTECTED 
+    - not pmm_client_SSL
+    - not pmm_client_UNINSTALL
 
 # Configure PMM Client - Protected Mode
 - include: pmm-client-protected.yml
-  when: "{{ pmm_client_PROTECTED }} == true and {{ pmm_client_SSL }} == false and {{ pmm_client_UNINSTALL }} == false"
+  when:
+    - pmm_client_PROTECTED
+    - not pmm_client_SSL
+    - not pmm_client_UNINSTALL
 
 # Configure PMM Client - SSL Mode
 - include: pmm-client-ssl.yml
-  when: "{{ pmm_client_PROTECTED }} == false and {{ pmm_client_SSL }} == true and {{ pmm_client_UNINSTALL }} == false"
+  when: 
+    - not pmm_client_PROTECTED
+    - pmm_client_SSL
+    - not pmm_client_UNINSTALL
 
 # Configure PMM Client - Combined Mode ( Both SSL and user authentication )
 - include: pmm-client-combined.yml
-  when: "{{ pmm_client_PROTECTED }} == true and {{ pmm_client_SSL }} == true and {{ pmm_client_UNINSTALL }} == false"
+  when:
+    - pmm_client_PROTECTED
+    - pmm_client_SSL
+    - not pmm_client_UNINSTALL
 
 # Add, start or stop services
 - include: pmm-client-services.yml
-  when: not(pmm_client_UNINSTALL)
+  when:
+    - not pmm_client_UNINSTALL

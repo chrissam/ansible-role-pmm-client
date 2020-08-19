@@ -5,9 +5,11 @@
   when: ansible_selinux.mode == 'enforcing'
 
 - name: Configure Percona repository
-  yum: "name={{ item }} state=present"
-  with_items: "{{ pmm_client_RedHat_repo }}"
-
+  yum:
+    name: "{{ pmm_client_RedHat_repo }}"
+    state: present
 
 - name: Install PMM Client
-  yum: name=pmm-client state=present
+  yum:
+    name: pmm2-client
+    state: present

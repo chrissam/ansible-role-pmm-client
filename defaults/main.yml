@@ -107,10 +107,7 @@ pmm_client_db_username: root
 pmm_client_db_password: admin
 
 ## Define List of services to be stopped or started ( eg: mysql, linux:metrics, mongdb:metrics etc )
-pmm_client_service_start:
-    - linux:metrics
-    - mysql:metrics
-    - mysql:queries
+pmm_client_service_start: []
 
 pmm_client_service_stop: []
 
