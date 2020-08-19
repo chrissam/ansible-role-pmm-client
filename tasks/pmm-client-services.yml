@@ -2,47 +2,40 @@
 
 
 - name: Check for services already running
-  shell: "pmm-admin list | grep {{ item }} | grep YES | cut  -d' ' -f1"
+  shell: "pmm-admin list | grep -i {{ item }} | grep Running |  awk '{print tolower($1)}'"
   with_items: "{{ pmm_client_add_service }}"
   changed_when: false
   register: services_running
 
 - name: Check for services already added
-  shell: "pmm-admin list | grep {{ item }} | cut  -d' ' -f1"
+  shell: "pmm-admin list | grep -i {{ item }} |  awk '{print tolower($1)}'"
   with_items: "{{ pmm_client_add_service }}"
   changed_when: false
   register: services_added
-
 
 - name: Checking for Linux and proxysql metrics to be added
   command: "pmm-admin add {{ item }}"
   with_items: "{{ pmm_client_add_service }}"
   when: >
-         (("{{ item }}" in services_running) and ("{{ item }}" in services_added)) and 
+         (( item in services_running.results.0.stdout_lines) or ( item in services_added.results.0.stdout_lines)) and 
          (('linux:metrics' in item) or ('proxysql:metrics' in item))
 
+- name: Checking for MySQL metrics to be added
+  command: "pmm-admin add mysql --password {{ pmm_client_db_password }}"
+  when:  '"mysql" not in services_added.results.0.stdout_lines and "mysql" in pmm_client_add_service'
 
-- name: Checking for Mysql, MongoDB metrics to be added
-  command: "pmm-admin add {{ item }} --user {{ pmm_client_db_username }} --password {{ pmm_client_db_password }}"
-  with_items: "{{ pmm_client_add_service }}"
-  when: >
-         ((("{{ item }}" in services_running) and ("{{ item }}" in services_added)) and 
-         (('linux:metrics' not in item) and ('proxysql:metrics' not in item))) or
-         (item == 'mysql' or item == 'mongodb')
+- name: Removing services as defined in pmm_client_remove_service	
+  command: pmm-admin remove {{ item }}	
+  with_items: "{{ pmm_client_remove_service }}"	
+  when: ( item in services_added.results.0.stdout_lines) or (item == 'mysql' or item == 'mongodb')	
 
-- name: Removing services as defined in pmm_client_remove_service
-  command: pmm-admin remove {{ item }}
-  with_items: "{{ pmm_client_remove_service }}"
-  when: ("{{ item }}" in services_added) or (item == 'mysql' or item == 'mongodb')
-
-- name: Checking for Services to stop
-  command: "pmm-admin stop {{ item }}"
-  with_items: "{{ pmm_client_service_stop }}"
-  when: ("{{ item }}" in services_running)
+- name: Checking for Services to stop	
+  command: "pmm-admin stop {{ item }}"	
+  with_items: "{{ pmm_client_service_stop }}"	
+  when: ( item in services_running.results.0.stdout_lines)	
 
 
-- name: Checking for Services to start
-  command: "pmm-admin start {{ item }}"
-  with_items: "{{ pmm_client_service_start }}"
-  when: not("{{ item }}" in services_running)
-
+- name: Checking for Services to start	
+  command: "pmm-admin start {{ item }}"	
+  with_items: "{{ pmm_client_service_start }}"	
+  when: not( item in services_running.results.0.stdout_lines ) 

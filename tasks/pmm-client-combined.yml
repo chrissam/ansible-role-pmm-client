@@ -8,17 +8,14 @@
 
 - name: Creating connection to PMM Server - Combined Mode ( SSL and Authentication)  with selfsigned SSL
   command: >
-           pmm-admin config --server {{ pmm_client_server_host }}:{{ pmm_client_https_port}} 
-           --server-user {{ pmm_client_server_username }} 
-           --server-password {{ pmm_client_server_password }}
-           --server-insecure-ssl
-  when: (pmm_admin_list.stdout.find('PMM client is not configured') != -1 and pmm_client_default_cert)
+           pmm-admin config
+           --server-insecure-tls
+           --server-url=https://{{ pmm_client_server_username }}:{{ pmm_client_server_password }}@{{ pmm_client_server_host }}:{{ pmm_client_https_port}}
+  when: (pmm_admin_list.stderr.find('pmm-agent is running, but not set up') != -1 and pmm_client_default_cert)
  
 - name: Creating connection to PMM Server - Combined Mode ( SSL and Authentication) with CA signed SSL
   command: >
-           pmm-admin config --server {{ pmm_client_server_host }}:{{ pmm_client_https_port}}
-           --server-user {{ pmm_client_server_username }}
-           --server-password {{ pmm_client_server_password }}
-           --server-ssl
-  when: (pmm_admin_list.stdout.find('PMM client is not configured') != -1 and not(pmm_client_default_cert)) 
+           pmm-admin config
+           --server-url=https://{{ pmm_client_server_username }}:{{ pmm_client_server_password }}@{{ pmm_client_server_host }}:{{ pmm_client_https_port}}
+  when: (pmm_admin_list.stderr.find('pmm-agent is running, but not set up') != -1 and not(pmm_client_default_cert)) 
 

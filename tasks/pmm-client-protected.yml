@@ -8,8 +8,8 @@
 
 - name: Creating connection to PMM Server - Protected Mode
   command: >
-           pmm-admin config --server {{ pmm_client_server_host }}:{{ pmm_client_http_port}} 
-           --server-user {{ pmm_client_server_username }} 
-           --server-password {{ pmm_client_server_password }}
-  when: pmm_admin_list.stdout.find('PMM client is not configured') != -1
+           pmm-admin config
+           --server-insecure-tls
+           --server-url=https://{{ pmm_client_server_username }}:{{ pmm_client_server_password }}@{{ pmm_client_server_host }}:{{ pmm_client_https_port}}
+  when: pmm_admin_list.stderr.find('pmm-agent is running, but not set up') != -1
   
